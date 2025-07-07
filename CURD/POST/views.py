@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse,get_object_or_404,redirect
 from.models import Post
 from .forms import PostForms
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def post_list(request):
     posts = Post.objects.all()
