@@ -1,0 +1,44 @@
+version: '3.8'
+
+services: 
+  db:
+    image: mysql:latest
+    container_name:  great_hoover
+    restart: always
+    environment:
+      MYSQL_DATABASE: aniket
+      MYSQL_USER: Aniket
+      MYSQL_PASSWORD: aniket28
+      MYSQL_ROOT_PASSWORD: aniket28
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - Django-net
+
+  web:
+    build: 
+      context: .
+    container_name:  wonderful_swirles
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mysql
+    environment:
+      - DB_NAME=aniket
+      - DB_USER=Aniket
+      - DB_PASSWORD=aniket28
+      - DB_HOST=localhost
+    networks:
+      - Django-net
+
+volumes:
+  mysql_data:
+
+networks:
+  django_net:
+    driver: bridge
